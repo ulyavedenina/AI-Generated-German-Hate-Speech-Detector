@@ -15,7 +15,7 @@ BotCatcher is a comprehensive collection of models and data designed for the tex
 
 ## Text-Based Bot-Generared Hate Speech Detection (for German) 
 
-### Dataset
+Below you find the sources for the data collection. Note that models were tested on the outputs of an unseen LLM to ensure robustness.
 
 #### Part 1: Human-Written Comments
 
@@ -39,24 +39,23 @@ BotCatcher is a comprehensive collection of models and data designed for the tex
 
 ### Models
 
-| Model             | F-Score |
-|-------------------|-------- |
-| BERT Base         | 0.974   | 
-| BERT Large        | 0.986   |
-| BERT Base-CNN     | 0.980   |
-| BERT Base+Stylom. | 0.952   |
-| Stylometric       | 0.881   |
-| LLM (Llama2) 7B   | 0.943   |
-| LLM (Llama2) 13B  | 0.947   |
+We have implemented the following models for the text-based approach:
+
+| Model                 | F-Score |
+|-----------------------|-------- |
+| BERT Base             | 0.974   | 
+| BERT Large            | 0.986   |
+| BERT Base-CNN         | 0.980   |
+| BERT Base+Stylometric | 0.952   |
+| Stylometric           | 0.881   |
+| LLM (Llama2) 7B       | 0.943   |
+| LLM (Llama2) 13B      | 0.947   |
 
 ## Metadata-Based Reddit Bot Detection
 
 ### Dataset
 
-| Part                 | Total Accounts |
-|----------------------|----------------|
-| Human Accounts       | 818            | 
-| Bot Accounts         | 816            |
+The Reddit metadata dataset comprises **818** Human and **816** Bot Accounts with corresponsing features.
 
 ### Feature Set for Metadata Classification
 
@@ -82,6 +81,8 @@ BotCatcher is a comprehensive collection of models and data designed for the tex
 
 ### Models
 
+We have implemented the following models for the metadata-based approach:
+
 | Model             | F-Score |
 |-------------------|-------- |
 | Random Forest     | 0.934   | 
@@ -97,3 +98,6 @@ BotCatcher is a comprehensive collection of models and data designed for the tex
 
 Due to ethical considerations, the hate speech comments dataset has empty text fields, and the Reddit metadata dataset is lacking usernames. If you need the missing data for your research purposes, please write to melanie.siegel@g-da.de, shortly describing the future use of any of the datasets.
 
+## Citation
+
+TBD
