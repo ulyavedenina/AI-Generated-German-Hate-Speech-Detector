@@ -96,7 +96,7 @@ We have implemented the following models for the metadata-based approach:
 
 ## Request the complete dataset
 
-Due to ethical considerations, the hate speech comments dataset has empty text fields, and the Reddit metadata dataset is lacking usernames. If you need the missing data for your research purposes, please write to melanie.siegel@g-da.de, shortly describing the future use of any of the datasets.
+Due to ethical considerations, the hate speech comments dataset has empty text fields, and the Reddit metadata dataset is lacking usernames. If you need the missing data for your research purposes, please write to melanie.siegel@h-da.de, shortly describing the future use of any of the datasets.
 
 ## Citation
 
