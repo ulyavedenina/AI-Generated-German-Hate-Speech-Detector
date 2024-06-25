@@ -5,13 +5,13 @@ BotCatcher is a comprehensive collection of models and data designed for the tex
 ## Repository Structure
 
 1. dataset *without text fields*
-   - *training set.tsv* bot- and human-generated German hate speech comments (train set)
-   - *test set.tsv* bot- and human-generated German hate speech comments (test set)
-   - *bot_human_metadata.tsv* bot- and human-metadata dataset
+   - *training set.tsv* -- bot- and human-generated German hate speech comments (train set)
+   - *test set.tsv* -- bot- and human-generated German hate speech comments (test set)
+   - *bot_human_metadata.tsv* -- bot- and human-metadata dataset
 2. models
-   - *helper* preprocessing functions
-   - *text-based* models designed for text-based hate speech bot detection
-   - *metadata-based* models designed for metadata-based bot detection 
+   - *helper* -- preprocessing functions
+   - *text-based* -- models designed for text-based hate speech bot detection
+   - *metadata-based* -- models designed for metadata-based bot detection 
 
 ## Text-Based Bot-Generared Hate Speech Detection (for German) 
 
