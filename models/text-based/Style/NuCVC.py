@@ -16,8 +16,8 @@ df_test = df_test.drop(['index', 'text_light_clean', 'text'], axis=1)
 y_train = df['author']
 X_train = df.drop(['author'], axis=1)
 
-y_test = df_test['author']
-X_test = df_test.drop(['author'], axis=1)
+y_test = df_test['label']
+X_test = df_test.drop(['label'], axis=1)
 
 # Scale features in the range of 0 to 1
 X_train_scaled = min_max_scaler.fit_transform(X_train)
