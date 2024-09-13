@@ -1,4 +1,3 @@
-import emoji as emoji
 import numpy as np
 import pandas as pd
 import datetime
@@ -43,7 +42,7 @@ y_val = y_val.values
 
 df1 = pd.read_csv("../../../dataset/test_set.tsv", delimiter='\t')
 X_test_list = df1.text_light_clean.values
-y_test = df1.author.values
+y_test = df1.label.values
 
 # Encode data
 def encode(comment, labels):
