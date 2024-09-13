@@ -52,7 +52,7 @@ print('Number of test sentences: {:,}\n'.format(df.shape[0]))
 
 # Create sentence and label lists
 sentences = df.text_light_clean.values
-labels = df.author.values
+labels = df.label.values
 
 # Load the BERT tokenizer.
 print('Loading BERT tokenizer...')
