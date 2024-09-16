@@ -54,9 +54,17 @@ We have implemented the following models for the text-based approach:
 | LLM (Llama2) 7B       | 0.943   |
 | LLM (Llama2) 13B      | 0.947   |
 
-## Metadata-Based Reddit Bot Detection
+## Metadata-Based Reddit Bot Detection Pipeline
 
 ### Dataset
+
+The hate speech detector was trained on the open-source data, see below:
+
+| Sources                     | Hate |Non-Hate |
+|-----------------------------|----------------|----------------|
+| DeTox                       | 4,504          | 7682           | 
+| RP-MOD                      | 2,813          |3412            |
+| HASOC 2019                  | 543            |5789            |
 
 The Reddit metadata dataset comprises **818** Human + **816** English Bot Accounts and **627** Human + **9** German Bot Accounts with corresponsing features.
 
