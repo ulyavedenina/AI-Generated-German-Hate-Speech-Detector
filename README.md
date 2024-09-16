@@ -1,6 +1,5 @@
-# BotCatcher
 
-BotCatcher is a comprehensive collection of models and data designed for the text-based detection of German bot-generated hate speech. It also includes a metadata-based, language-agnostic dataset for bot detection on Reddit and corresponding models for identifying bots. The datasets for this project were predominantly developed internally. 
+This repository contains a comprehensive collection of models and data designed for the text-based detection of German bot-generated hate speech. It also includes a metadata-based, language-agnostic dataset for bot detection on Reddit and corresponding models for identifying bots. The datasets for this project were predominantly developed internally. 
 
 ## Repository Structure
 
