@@ -6,7 +6,6 @@ This repository contains a comprehensive collection of models and data designed 
 1. dataset
    - *training set.tsv* -- bot- and human-generated German hate speech comments (train set)
    - *test set.tsv* -- bot- and human-generated German hate speech comments (test set)
-   - *bot_human_metadata.tsv* -- English bot- and human-metadata dataset -- _contains no usernames_
    - *bot_human_metadata_train.tsv* -- English bot- and human-metadata dataset -- _contains no usernames_
    - *bot_human_metadata_test.tsv* -- German bot- and human- hate speech metadata dataset -- _contains no usernames_
 2. models
