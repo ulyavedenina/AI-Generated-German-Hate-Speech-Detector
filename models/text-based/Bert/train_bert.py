@@ -11,6 +11,23 @@ import random
 import time
 import datetime
 from torch import nn
+import argparse
+
+# Create the parser
+parser = argparse.ArgumentParser(description="Bert Model")
+
+# Add an argument
+parser.add_argument('model', type=str, help='bert-base resp. bert-Large')
+
+# Parse the arguments
+args = parser.parse_args()
+
+if args.model == "bert-base":
+    model_id = 'dbmdz/bert-base-german-uncased'
+elif args.model =="bert-large":
+    model_id = 'deepset/gbert-large'
+else:
+    raise Exception("Argument required: bert-base, bert-large")
 
 seed_val = 42
 random.seed(seed_val)
@@ -18,14 +35,15 @@ np.random.seed(seed_val)
 torch.manual_seed(seed_val)
 torch.cuda.manual_seed_all(seed_val)
 
+print(output_dir)
 # Set up output directory
-output_dir = './model_final/'
+output_dir = os.path.dirname(os.path.abspath(__file__)) + f'/{args.model}/'
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
 print("Model will be saved to %s" % output_dir)
 
 # Load data
-df = pd.read_csv('../../../dataset/training_set.tsv', sep='\t', encoding='utf-8', engine='python')
+df = pd.read_csv('./dataset/training_set.tsv', sep='\t', encoding='utf-8', engine='python')
 df = df.drop(['index', 'text'], axis=1)
 
 # Split data into training and test sets
@@ -35,7 +53,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 
 # Tokenize using BERT tokenizer
 print('Loading BERT tokenizer...')
-tokenizer = BertTokenizer.from_pretrained('dbmdz/bert-base-german-uncased', do_lower_case=True)
+tokenizer = BertTokenizer.from_pretrained(model_id, do_lower_case=True)
 
 X_train_list = X_train['text_light_clean'].values
 X_test_list = X_test['text_light_clean'].values
@@ -78,7 +96,7 @@ test_dataloader = DataLoader(X_test, sampler=SequentialSampler(X_test), batch_si
 
 # Load BERT model
 model = BertForSequenceClassification.from_pretrained(
-    "dbmdz/bert-base-german-uncased",
+    model_id,
     num_labels=2,
     output_attentions=False,
     output_hidden_states=False,
