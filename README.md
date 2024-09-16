@@ -11,7 +11,11 @@ BotCatcher is a comprehensive collection of models and data designed for the tex
 2. models
    - *helper* -- preprocessing functions
    - *text-based* -- models designed for text-based hate speech bot detection
-   - *metadata-based* -- models designed for metadata-based bot detection 
+   - *metadata-based* -- models designed for metadata-based bot detection
+3. data_collection
+   - *bot_comment_generation* -- generation of AI-generated comments (training data)
+   - *bot_comment_generation_mixtral* -- generation of AI-generated comments (test data)
+
 
 ## Text-Based Bot-Generared Hate Speech Detection (for German) 
 
