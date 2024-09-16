@@ -58,7 +58,7 @@ We have implemented the following models for the text-based approach:
 
 ### Dataset
 
-The Reddit metadata dataset comprises **818** Human and **816** English Bot Accounts and **627** Human and **9** German Bot Accounts with corresponsing features.
+The Reddit metadata dataset comprises **818** Human + **816** English Bot Accounts and **627** Human + **9** German Bot Accounts with corresponsing features.
 
 ### Feature Set for Metadata Classification
 
