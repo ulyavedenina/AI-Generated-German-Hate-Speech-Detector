@@ -35,20 +35,20 @@ np.random.seed(seed_val)
 torch.manual_seed(seed_val)
 torch.cuda.manual_seed_all(seed_val)
 
-print(output_dir)
 # Set up output directory
 output_dir = os.path.dirname(os.path.abspath(__file__)) + f'/{args.model}/'
+print(output_dir)
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
 print("Model will be saved to %s" % output_dir)
 
 # Load data
-df = pd.read_csv('./dataset/training_set.tsv', sep='\t', encoding='utf-8', engine='python')
+df = pd.read_csv('./dataset/text-based/train.tsv', sep='\t', encoding='utf-8', engine='python')
 df = df.drop(['index', 'text'], axis=1)
 
 # Split data into training and test sets
-y = df['author']
-X = df.drop(['author'], axis=1)
+y = df['label']
+X = df.drop(['label'], axis=1)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
 
 # Tokenize using BERT tokenizer
@@ -219,7 +219,7 @@ for epoch_i in range(0, 2):
     all_predictions = np.array(all_predictions)
     all_gold_labels = np.array(all_gold_labels)
 
-    np.savetxt('validation_predictions.txt', np.column_stack((all_gold_labels, all_predictions, all_texts)), fmt='%s', delimiter='\t', header='gold\tpred\ttext', comments='')
+    np.savetxt('./models/text-based/Bert/validation_predictions.txt', np.column_stack((all_gold_labels, all_predictions, all_texts)), fmt='%s', delimiter='\t', header='gold\tpred\ttext', comments='')
 
     avg_val_accuracy = total_eval_accuracy / len(test_dataloader)
     print("  Accuracy: {0:.3f}".format(avg_val_accuracy))
@@ -245,10 +245,6 @@ for epoch_i in range(0, 2):
             'Validation Time': validation_time
         }
     )
-
-    #if avg_val_loss < best_val_loss and avg_train_loss < best_train_loss:
-        #best_val_loss = avg_val_loss
-        #best_train_loss = avg_train_loss
 
 print("")
 print("Training complete!")
