@@ -4,17 +4,27 @@ This repository contains a comprehensive collection of models and data designed 
 ## Repository Structure
 
 1. dataset
-   - *training set.tsv* -- bot- and human-generated German hate speech comments (train set)
-   - *test set.tsv* -- bot- and human-generated German hate speech comments (test set)
-   - *bot_human_metadata_train.tsv* -- English bot- and human-metadata dataset -- _contains no usernames_
-   - *bot_human_metadata_test.tsv* -- German bot- and human- hate speech metadata dataset -- _contains no usernames_
+   - text-based
+      - *train.tsv* -- bot- and human-generated German hate speech comments
+      - *test.tsv* -- bot- and human-generated German hate speech comments
+   - metadata-based
+      - *hate_speech_train.tsv* -- hate and non-hate German comments
+      - *hate_speech_test.tsv* -- hate and non-hate German comments
+      - *bot_human_metadata_train_english.tsv* -- English bot- and human-metadata dataset -- _contains no usernames_
+      - *bot_human_metadata_test_english.tsv* -- English bot- and human-metadata dataset -- _contains no usernames_
+      - *bot_human_metadata_test_german.tsv* -- German bot- and human- hate speech metadata dataset -- _contains no usernames_
+   - datasets_llama
+      - *bot_ds* -- bot comments in the dataset format
+      - *no_bot_ds* -- human comments in the dataset format
 2. models
    - *helper* -- preprocessing functions
    - *text-based* -- models designed for text-based hate speech bot detection
-   - *metadata-based* -- models designed for metadata-based bot detection
+   - *metadata-based_pipeline* -- models designed for metadata-based hate bot detection
 3. data_collection
    - *bot_comment_generation* -- generation of AI-generated comments (training data)
    - *bot_comment_generation_mixtral* -- generation of AI-generated comments (test data)
+   - *offensive_words.txt* -- the list of offensive words
+   - *get_subreddit_users.ipynb* -- extraction of users from German subreddits
 
 
 ## Text-Based Bot-Generared Hate Speech Detection (for German) 
@@ -50,10 +60,10 @@ We have implemented the following models for the text-based approach:
 | BERT Base             | 0.974   | 
 | BERT Large            | 0.986   |
 | BERT Base-CNN         | 0.980   |
-| BERT Base+Stylometric | 0.952   |
+| BERT Base+Stylometric | 0.949   |
 | Stylometric           | 0.881   |
 | LLM (Llama2) 7B       | 0.943   |
-| LLM (Llama2) 13B      | 0.947   |
+| LLM (Llama2) 13B      | 0.962  |
 
 ## Metadata-Based Reddit Bot Detection Pipeline
 
@@ -61,7 +71,7 @@ We have implemented the following models for the text-based approach:
 
 The hate speech detector was trained on the open-source data, see below:
 
-| Sources                     | Hate |Non-Hate |
+| Sources                     | Hate           |Non-Hate        |
 |-----------------------------|----------------|----------------|
 | DeTox                       | 4,504          | 7682           | 
 | RP-MOD                      | 2,813          |3412            |
@@ -86,7 +96,15 @@ The Reddit metadata dataset comprises **818** Human + **816** English Bot Accoun
 
 ### Models
 
-We have implemented the Random Forest for the metadata-based approach:
+For the hate-speech detector, Llama 3 was implemented:
+
+| Test Set                          | F-Score   |
+|-----------------------------------|-----------|
+| Test set 1 (Detox, RP-Mod, HASOC) | 0.92      | 
+| Test set 2 (Reddit Hate Speech)   | 0.76      | 
+
+
+Metadata classification with Random Forest:
 
 | Model             | F-Score (Performance on the English validation set) |
 |-------------------|-------- |
@@ -94,6 +112,8 @@ We have implemented the Random Forest for the metadata-based approach:
 
 ## Request the complete dataset
 
+To request complete metadata datasets, contact 
+
 ## Citation
 
-TBD
+

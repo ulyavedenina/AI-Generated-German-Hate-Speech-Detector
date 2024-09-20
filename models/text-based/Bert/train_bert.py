@@ -11,6 +11,23 @@ import random
 import time
 import datetime
 from torch import nn
+import argparse
+
+# Create the parser
+parser = argparse.ArgumentParser(description="Bert Model")
+
+# Add an argument
+parser.add_argument('model', type=str, help='bert-base resp. bert-Large')
+
+# Parse the arguments
+args = parser.parse_args()
+
+if args.model == "bert-base":
+    model_id = 'dbmdz/bert-base-german-uncased'
+elif args.model =="bert-large":
+    model_id = 'deepset/gbert-large'
+else:
+    raise Exception("Argument required: bert-base, bert-large")
 
 seed_val = 42
 random.seed(seed_val)
@@ -19,23 +36,24 @@ torch.manual_seed(seed_val)
 torch.cuda.manual_seed_all(seed_val)
 
 # Set up output directory
-output_dir = './model_final/'
+output_dir = os.path.dirname(os.path.abspath(__file__)) + f'/{args.model}/'
+print(output_dir)
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
 print("Model will be saved to %s" % output_dir)
 
 # Load data
-df = pd.read_csv('../../../dataset/training_set.tsv', sep='\t', encoding='utf-8', engine='python')
+df = pd.read_csv('./dataset/text-based/train.tsv', sep='\t', encoding='utf-8', engine='python')
 df = df.drop(['index', 'text'], axis=1)
 
 # Split data into training and test sets
-y = df['author']
-X = df.drop(['author'], axis=1)
+y = df['label']
+X = df.drop(['label'], axis=1)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
 
 # Tokenize using BERT tokenizer
 print('Loading BERT tokenizer...')
-tokenizer = BertTokenizer.from_pretrained('dbmdz/bert-base-german-uncased', do_lower_case=True)
+tokenizer = BertTokenizer.from_pretrained(model_id, do_lower_case=True)
 
 X_train_list = X_train['text_light_clean'].values
 X_test_list = X_test['text_light_clean'].values
@@ -72,13 +90,20 @@ X_train = encode(X_train_list, y_train)
 X_test = encode(X_test_list, y_test)
 
 # Create DataLoaders
-BATCH_SIZE = 64
+if args.model == "bert-base":
+    BATCH_SIZE = 64
+    lr = 2e-5
+else:
+    BATCH_SIZE = 32
+    lr = 5e-5
+
+BATCH_SIZE = 64 if args.model == "bert-base" else 32
 train_dataloader = DataLoader(X_train, sampler=RandomSampler(X_train), batch_size=BATCH_SIZE)
 test_dataloader = DataLoader(X_test, sampler=SequentialSampler(X_test), batch_size=BATCH_SIZE)
 
 # Load BERT model
 model = BertForSequenceClassification.from_pretrained(
-    "dbmdz/bert-base-german-uncased",
+    model_id,
     num_labels=2,
     output_attentions=False,
     output_hidden_states=False,
@@ -86,7 +111,7 @@ model = BertForSequenceClassification.from_pretrained(
 params = list(model.named_parameters())
 
 # Set up optimizer and learning rate scheduler
-optimizer = AdamW(model.parameters(), lr=2e-5, eps=1e-8)
+optimizer = AdamW(model.parameters(), lr=lr, eps=1e-8)
 scheduler = get_linear_schedule_with_warmup(optimizer, num_warmup_steps=0, num_training_steps=len(train_dataloader) * 2)
 
 # Function to calculate the accuracy of our predictions vs labels
@@ -121,8 +146,6 @@ training_stats = []
 all_gold_labels = []
 all_predictions = []
 total_t0 = time.time()
-#best_val_loss = float('inf')
-#best_train_loss = float('inf')
 
 # Train for each epoch
 for epoch_i in range(0, 2):
@@ -201,7 +224,7 @@ for epoch_i in range(0, 2):
     all_predictions = np.array(all_predictions)
     all_gold_labels = np.array(all_gold_labels)
 
-    np.savetxt('validation_predictions.txt', np.column_stack((all_gold_labels, all_predictions, all_texts)), fmt='%s', delimiter='\t', header='gold\tpred\ttext', comments='')
+    np.savetxt('./models/text-based/Bert/validation_predictions.txt', np.column_stack((all_gold_labels, all_predictions, all_texts)), fmt='%s', delimiter='\t', header='gold\tpred\ttext', comments='')
 
     avg_val_accuracy = total_eval_accuracy / len(test_dataloader)
     print("  Accuracy: {0:.3f}".format(avg_val_accuracy))
@@ -227,10 +250,6 @@ for epoch_i in range(0, 2):
             'Validation Time': validation_time
         }
     )
-
-    #if avg_val_loss < best_val_loss and avg_train_loss < best_train_loss:
-        #best_val_loss = avg_val_loss
-        #best_train_loss = avg_train_loss
 
 print("")
 print("Training complete!")
