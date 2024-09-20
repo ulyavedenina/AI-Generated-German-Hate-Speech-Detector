@@ -90,7 +90,7 @@ X_train = encode(X_train_list, y_train)
 X_test = encode(X_test_list, y_test)
 
 # Create DataLoaders
-BATCH_SIZE = 64
+BATCH_SIZE = 64 if args.model == "bert-base" else 32
 train_dataloader = DataLoader(X_train, sampler=RandomSampler(X_train), batch_size=BATCH_SIZE)
 test_dataloader = DataLoader(X_test, sampler=SequentialSampler(X_test), batch_size=BATCH_SIZE)
 
@@ -139,8 +139,6 @@ training_stats = []
 all_gold_labels = []
 all_predictions = []
 total_t0 = time.time()
-#best_val_loss = float('inf')
-#best_train_loss = float('inf')
 
 # Train for each epoch
 for epoch_i in range(0, 2):
