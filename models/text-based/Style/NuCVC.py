@@ -8,13 +8,15 @@ np.random.seed(42)
 min_max_scaler = MinMaxScaler()
 
 # Load and preprocess data
-df = pd.read_csv('../../../dataset/training_set.tsv', sep='\t', encoding='utf-8', engine='python')
+df = pd.read_csv('./dataset/text-based/train.tsv', sep='\t', encoding='utf-8', engine='python')
 df = df.drop(['index', 'text', 'text_light_clean'], axis=1)
-df_test = pd.read_csv('../../../dataset/test_set.tsv', sep='\t', encoding='utf-8', engine='python')
+df = df.reindex(sorted(df.columns), axis=1)
+df_test = pd.read_csv('./dataset/text-based/test.tsv', sep='\t', encoding='utf-8', engine='python')
 df_test = df_test.drop(['index', 'text_light_clean', 'text'], axis=1)
+df_test = df_test.reindex(sorted(df_test.columns), axis=1)
 
-y_train = df['author']
-X_train = df.drop(['author'], axis=1)
+y_train = df['label']
+X_train = df.drop(['label'], axis=1)
 
 y_test = df_test['label']
 X_test = df_test.drop(['label'], axis=1)
