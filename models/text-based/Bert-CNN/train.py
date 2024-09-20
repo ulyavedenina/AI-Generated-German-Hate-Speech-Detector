@@ -27,11 +27,11 @@ print(f"Using {device} device")
 torch.backends.cudnn.deterministic = True
 torch.cuda.amp.autocast(enabled=True)
 
-df = pd.read_csv('../../../dataset/training_set.tsv', sep='\t', encoding='utf-8', engine='python')
+df = pd.read_csv('./dataset/text-based/train.tsv', sep='\t', encoding='utf-8', engine='python')
 df = df.drop(['index', 'text'], axis=1)
 
-y = df['author']
-X = df.drop(['author'], axis=1)
+y = df['label']
+X = df.drop(['label'], axis=1)
 X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
 
 X_train_list = X_train['text_light_clean']
@@ -40,7 +40,7 @@ X_val_list = X_val['text_light_clean']
 y_train = y_train.values
 y_val = y_val.values
 
-df1 = pd.read_csv("../../../dataset/test_set.tsv", delimiter='\t')
+df1 = pd.read_csv("./dataset/text-based/test.tsv", delimiter='\t')
 X_test_list = df1.text_light_clean.values
 y_test = df1.label.values
 
@@ -384,6 +384,7 @@ scaler = GradScaler()
 training_stats = []
 val_stats = []
 best_val_loss = float('inf')
+MODEL_DIR = './models/text-based/Bert-CNN/'
 
 for epoch in range(epochs):
 
@@ -391,16 +392,16 @@ for epoch in range(epochs):
 
     validation(model, val_dataloader)
 
-    torch.save(model.state_dict(), 'bert_cnn.pt')
+    torch.save(model.state_dict(), f'{MODEL_DIR}bert_cnn.pt')
     model_pt = model.module if hasattr(model, 'module') else model
-    model_pt.save_pretrained('./model/')
+    model_pt.save_pretrained(f'{MODEL_DIR}model/')
 
 test_stats = []
-model.load_state_dict(torch.load('bert_cnn.pt'))
+model.load_state_dict(torch.load(f'{MODEL_DIR}bert_cnn.pt'))
 
-if all(torch.all(torch.eq(p1, p2)) for p1, p2 in zip(model.parameters(), torch.load('bert_cnn.pt').values())):
+if all(torch.all(torch.eq(p1, p2)) for p1, p2 in zip(model.parameters(), torch.load(f'{MODEL_DIR}bert_cnn.pt').values())):
     print("Model parameters loaded successfully.")
 else:
     print("Error: Model parameters not loaded correctly.")
 
-test(model, dataloader=test_dataloader, output_file='test_predictions.tsv')
+test(model, dataloader=test_dataloader, output_file=f'{MODEL_DIR}test_predictions.tsv')
