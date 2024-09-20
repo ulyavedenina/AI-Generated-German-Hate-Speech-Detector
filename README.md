@@ -3,10 +3,11 @@ This repository contains a comprehensive collection of models and data designed 
 
 ## Repository Structure
 
-1. dataset *without text fields*
+1. dataset
    - *training set.tsv* -- bot- and human-generated German hate speech comments (train set)
    - *test set.tsv* -- bot- and human-generated German hate speech comments (test set)
-   - *bot_human_metadata.tsv* -- bot- and human-metadata dataset
+   - *bot_human_metadata_train.tsv* -- English bot- and human-metadata dataset -- _contains no usernames_
+   - *bot_human_metadata_test.tsv* -- German bot- and human- hate speech metadata dataset -- _contains no usernames_
 2. models
    - *helper* -- preprocessing functions
    - *text-based* -- models designed for text-based hate speech bot detection
@@ -54,11 +55,19 @@ We have implemented the following models for the text-based approach:
 | LLM (Llama2) 7B       | 0.943   |
 | LLM (Llama2) 13B      | 0.947   |
 
-## Metadata-Based Reddit Bot Detection
+## Metadata-Based Reddit Bot Detection Pipeline
 
 ### Dataset
 
-The Reddit metadata dataset comprises **818** Human and **816** Bot Accounts with corresponsing features.
+The hate speech detector was trained on the open-source data, see below:
+
+| Sources                     | Hate |Non-Hate |
+|-----------------------------|----------------|----------------|
+| DeTox                       | 4,504          | 7682           | 
+| RP-MOD                      | 2,813          |3412            |
+| HASOC 2019                  | 543            |5789            |
+
+The Reddit metadata dataset comprises **818** Human + **816** English Bot Accounts and **627** Human + **9** German Bot Accounts with corresponsing features.
 
 ### Feature Set for Metadata Classification
 
@@ -66,17 +75,10 @@ The Reddit metadata dataset comprises **818** Human and **816** Bot Accounts wit
 |-------------------------|--------------------------------------------------------|
 | comment_karma           | Comment karma of a user                                |
 | post_karma              | Post karma of a user                                   |
-| is_gold                 | Premium status of a user                               |
-| is_mod                  | User is a subreddit moderator                          |
-| has_verified_email      | User’s email is verified                               |
 | comment_activity_day    | Number of comments per day                             |
 | posts_activity_day      | Number of posts per day                                |
-| time_to_first_post      | Time from account creation to the first post (in sec)  | 
-| AskReddit_activity      | Proportion of posts and comments in AskReddit          | 
-| subreddit_unique        | Proportion of unique subreddits in the user’s history  |
 | avg_frequency_posts     | Average time between the posts (in seconds)            | 
 | avg_frequency_all       | Average time between any activity (in seconds)         |
-| min_time_post           | Minimal time between the posts (in seconds)            |
 | min_time_all            | Minimal time between any activity (in seconds)         | 
 | num_url                 | Proportion of links in posts and comments              | 
 | num_repeated_post       | Proportion of repeated posts                           | 
@@ -84,18 +86,11 @@ The Reddit metadata dataset comprises **818** Human and **816** Bot Accounts wit
 
 ### Models
 
-We have implemented the following models for the metadata-based approach:
+We have implemented the Random Forest for the metadata-based approach:
 
-| Model             | F-Score |
+| Model             | F-Score (Performance on the English validation set) |
 |-------------------|-------- |
 | Random Forest     | 0.934   | 
-| Gradient Boosting | 0.880   |
-| Ada Boost         | 0.857   |
-| K-Neigbours       | 0.825   |
-| Decision Tree     | 0.793   |
-| NuCVC             | 0.712   |
-| LDA               | 0.583   |
-| CVC               | 0.560   |
 
 ## Request the complete dataset
 
