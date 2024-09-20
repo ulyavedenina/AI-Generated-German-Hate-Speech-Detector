@@ -101,8 +101,6 @@ class Bert_CNN(nn.Module):
         dropout = config.dropout  # dropout value
         embedding_dim = config.embedding_dim  # length of embedding dim
         
-        #input_channel = 1  # for single embedding, input_channel = 1
-        #self.conv1 = nn.Conv2d(input_channel, output_channel, (3, embedding_dim), padding=(2, 0), groups=1)
         self.conv1 = nn.Conv1d(embedding_dim, output_channel, kernel_size=3, padding=1)
         self.dropout = nn.Dropout(dropout)
         self.fc1 = nn.Linear(output_channel, num_classes)
