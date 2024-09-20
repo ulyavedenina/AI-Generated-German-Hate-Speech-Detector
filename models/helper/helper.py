@@ -116,6 +116,7 @@ tagger = SequenceTagger.load("flair/ner-german-large")
 # Ner extractor
 def ner(text):
     sentence = Sentence(text)
+    
     tagger.predict(sentence)
     
     entity_dict = {'PER': 0, 'ORG': 0, 'LOC': 0, 'MISC': 0}
@@ -130,10 +131,11 @@ def ner(text):
         elif 'MISC' in token.tag:
             entity_dict['MISC'] += 1/len(sentence)*100
 
+
     return entity_dict
 
 # Read offensive words and lemmatise
-with open('offensive_words.txt', 'r') as file:
+with open('../../data_collection/offensive_words.txt', 'r') as file:
     offensive_words = file.read().replace(',\n', ' ')
     offensive_words = lemmatize(offensive_words).lower()
     offensive_words_list = list(offensive_words.split(" "))
@@ -142,8 +144,12 @@ with open('offensive_words.txt', 'r') as file:
 
 # Count offensive words in the comment and normalise for the comment length
 def offensive_words(text):
-    offensive_words=0
-    offensive_words = sum(1 for word in text.lower().split() if word in offensive_words_list)/len(text)*100
+    if len(text) > 0:
+        offensive_words=0
+        offensive_words = sum(1 for word in text.lower().split() if word in offensive_words_list)
+        offensive_words = offensive_words / len(text)*100
+    else: 
+        return 0
     return offensive_words
 
 # Type-token ratio
@@ -236,32 +242,21 @@ def feature_2(df1):
     df1 = df1.drop(columns='cleaned_text')
     return df1
 
-# ==================== Light cleaning for the BERT fine-tuning ====================
 
-#import pandas as pd
-#df = pd.read_csv('../training_set.tsv', sep='\t', encoding='utf-8', engine='python')
-#df = pd.read_csv('../dataset_linguistic_classifier/test_data/test_set.tsv', sep='\t', encoding='utf-8', engine='python')
+#Remvove unwanted symbols
+def remove_symbols_light(text):
+    text = re.sub(r'\s[^\w\s]\s', '', text)
+    text = re.sub(r'\w*\d+\w*', '', text)
+    text = re.sub(r'[\'"„“/()]', '', text)
+    return text
 
-# Remvove unwanted symbols
-# def remove_symbols_light(text):
-#     text = re.sub(r'\s[^\w\s]\s', '', text)
-#     text = re.sub(r'\w*\d+\w*', '', text)
-#     text = re.sub(r'[\'"„“/()]', '', text)
-#     return text
-
-# Light-clean the text 
-# def clean_full_light(text):
+#Light-clean the text 
+def clean_full_light(text):
     
-#     replaced_text = replace_emojis(text)
-#     replaced_text = replace_links(replaced_text)
-#     replaced_text = replace_user_mentions(replaced_text)
-#     replaced_text = remove_symbols_light(replaced_text)
-#     replaced_text = replaced_text.lower()
-#     replaced_text = re.sub(' {2,}', ' ', replaced_text)
-#     return replaced_text
-
-
-#df['text_light_clean'] = df['text'].apply(lambda x: clean_full_light(x))
-#df.to_csv('training_set.tsv', sep='\t', index=None)
-
-
+    replaced_text = replace_emojis(text)
+    replaced_text = replace_links(replaced_text)
+    replaced_text = replace_user_mentions(replaced_text)
+    replaced_text = remove_symbols_light(replaced_text)
+    replaced_text = replaced_text.lower()
+    replaced_text = re.sub(' {2,}', ' ', replaced_text)
+    return replaced_text
