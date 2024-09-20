@@ -90,6 +90,13 @@ X_train = encode(X_train_list, y_train)
 X_test = encode(X_test_list, y_test)
 
 # Create DataLoaders
+if args.model == "bert-base":
+    BATCH_SIZE = 64
+    lr = 2e-5
+else:
+    BATCH_SIZE = 32
+    lr = 5e-5
+
 BATCH_SIZE = 64 if args.model == "bert-base" else 32
 train_dataloader = DataLoader(X_train, sampler=RandomSampler(X_train), batch_size=BATCH_SIZE)
 test_dataloader = DataLoader(X_test, sampler=SequentialSampler(X_test), batch_size=BATCH_SIZE)
@@ -104,7 +111,7 @@ model = BertForSequenceClassification.from_pretrained(
 params = list(model.named_parameters())
 
 # Set up optimizer and learning rate scheduler
-optimizer = AdamW(model.parameters(), lr=2e-5, eps=1e-8)
+optimizer = AdamW(model.parameters(), lr=lr, eps=1e-8)
 scheduler = get_linear_schedule_with_warmup(optimizer, num_warmup_steps=0, num_training_steps=len(train_dataloader) * 2)
 
 # Function to calculate the accuracy of our predictions vs labels
