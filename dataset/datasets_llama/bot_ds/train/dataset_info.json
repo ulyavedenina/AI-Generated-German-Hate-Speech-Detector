@@ -1,0 +1,58 @@
+{
+  "builder_name": "csv",
+  "citation": "",
+  "config_name": "default",
+  "dataset_name": "csv",
+  "dataset_size": 2115842,
+  "description": "",
+  "download_checksums": {
+    "/home/vkums/Botox/AP_4_Bot_Recognition/Notebooks/bot_train.csv": {
+      "num_bytes": 1341326,
+      "checksum": null
+    },
+    "/home/vkums/Botox/AP_4_Bot_Recognition/Notebooks/bot_val.csv": {
+      "num_bytes": 336314,
+      "checksum": null
+    },
+    "/home/vkums/Botox/AP_4_Bot_Recognition/Notebooks/bot_test.csv": {
+      "num_bytes": 341623,
+      "checksum": null
+    }
+  },
+  "download_size": 2019263,
+  "features": {
+    "text": {
+      "dtype": "string",
+      "_type": "Value"
+    }
+  },
+  "homepage": "",
+  "license": "",
+  "size_in_bytes": 4135105,
+  "splits": {
+    "train": {
+      "name": "train",
+      "num_bytes": 1404742,
+      "num_examples": 6400,
+      "dataset_name": "csv"
+    },
+    "val": {
+      "name": "val",
+      "num_bytes": 352195,
+      "num_examples": 1601,
+      "dataset_name": "csv"
+    },
+    "test": {
+      "name": "test",
+      "num_bytes": 358905,
+      "num_examples": 1599,
+      "dataset_name": "csv"
+    }
+  },
+  "version": {
+    "version_str": "0.0.0",
+    "major": 0,
+    "minor": 0,
+    "patch": 0
+  }
+}
