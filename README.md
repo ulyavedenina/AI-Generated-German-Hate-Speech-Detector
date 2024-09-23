@@ -126,7 +126,7 @@ Metadata classification with Random Forest:
 
 ## Request the complete dataset
 
-To request complete metadata datasets, contact vedeninaulya@gmail.com
+To request complete metadata datasets, contact 
 
 ## Citation
 
