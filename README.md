@@ -17,9 +17,23 @@ This repository contains a comprehensive collection of models and data designed 
       - *bot_ds* -- bot comments in the dataset format
       - *no_bot_ds* -- human comments in the dataset format
 2. models
-   - *helper* -- preprocessing functions
-   - *text-based* -- models designed for text-based hate speech bot detection
-   - *metadata-based_pipeline* -- models designed for metadata-based hate bot detection
+   - helper -- preprocessing functions
+      - *extract_features.py* -- cleaning for stylometric preprocessing
+      - *extract_metadata.py* -- file to extract metadata features from Reddit accounts
+      - *fetch_user_metadata.py* -- code to fetch a Reddit user metadata
+      - *helper.py* -- file with text preprocessing functions
+      - *light_clean.py* -- cleaning for Bert preprocessing
+      - *predict_comment.py* -- code based on a BERT-Large model to predict an authorship of a hate comment
+   - text-based -- models designed for text-based hate speech bot detection
+      - *Bert*
+      - *Bert-CNN*
+      - *Bert-Style*
+      - *Llama2*
+      - *Style*
+      - *requirements.txt*
+   - metadata-based_pipeline -- models designed for metadata-based hate bot detection
+      - *bot_detector.py*
+      - *hate_speech_detector.ipynb*
 3. data_collection
    - *bot_comment_generation* -- generation of AI-generated comments (training data)
    - *bot_comment_generation_mixtral* -- generation of AI-generated comments (test data)
@@ -112,7 +126,7 @@ Metadata classification with Random Forest:
 
 ## Request the complete dataset
 
-To request complete metadata datasets, contact 
+To request complete metadata datasets, contact vedeninaulya@gmail.com
 
 ## Citation
 
